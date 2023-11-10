@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../../App';
+import { AppContext } from '../../context';
 
 import { Box, Typography, TextField, Button } from '@mui/material';
 
@@ -14,14 +14,13 @@ const Login = () =>{
     const handleLogin = (e) =>{
         e.preventDefault()
 
-        if(email === '' || password === ''){
+        if(email === '' && password === ''){
             alert('fill in the lines');
             return
         };
 
-        dispatch({ type: 'LOGIN' });
-        navigate('/private');
-
+        dispatch({ type: 'LOGIN' })
+        navigate('/private')
     };
     
     return (

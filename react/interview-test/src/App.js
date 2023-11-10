@@ -1,44 +1,25 @@
-import React, { createContext, useReducer } from 'react';
 import { Route, Routes } from "react-router-dom";
 import Login from "./page/Login/Login";
 import UserPage from "./page/UserPage/UserPage";
+import PublicRoute from './shared/PablicRoute';
+import PrivateRoute from "./shared/PrivateRoute";
+
+import {AppProvider} from "./context.js";
 
 import { Box } from '@mui/material';
 
-export const AppContext = createContext();
-
-const initialState = {
-  isAuthenticated: false,
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'LOGIN':
-      return { isAuthenticated: true };
-    case 'LOGOUT':
-      return { isAuthenticated: false };
-    default:
-      return state;
-  };
-};
-
-function AppProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      {children}
-    </AppContext.Provider>
-  );
-};
 
 function App() {
   return (
     <Box>
     <AppProvider>
           <Routes>
-            <Route path="/" element={<Login/>} />
-            <Route path="/private" element={<UserPage/>} />
+            <Route element={<PublicRoute/>}>
+              <Route path="/" element={<Login/>} />
+            </Route>
+            <Route element={<PrivateRoute/>}>
+              <Route path="/private" element={<UserPage/>} />
+            </Route>
           </Routes>
       </AppProvider>
     </Box>
